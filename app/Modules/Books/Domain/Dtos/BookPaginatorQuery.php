@@ -17,8 +17,8 @@ class BookPaginatorQuery
     public static function from(Request $request): self
     {
         return new self(
-            perPage: $request->per_page ?: 15,
-            page: $request->page ?: 1,
+            perPage: intval($request->per_page ?: 15),
+            page: intval($request->page ?: 1),
             search: $request->search ?? ''
         );
     }
