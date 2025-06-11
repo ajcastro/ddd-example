@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\Books\Presentation\Api\V1;
+namespace App\Modules\Books\Interfaces\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Modules\Books\Domain\Dtos\BookPaginatorQuery;
+use App\Modules\Books\Application\Queries\BookPaginatorQuery;
 use App\Modules\Books\Domain\Repositories\BookRepositoryInterface;
 use Illuminate\Http\Request;
 

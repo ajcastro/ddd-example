@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Books\Domain\Repositories;
 
-use App\Modules\Books\Domain\Dtos\BookPaginatorQuery;
+use App\Modules\Books\Application\Queries\BookPaginatorQuery;
 use App\Modules\Books\Domain\Entities\Book;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;

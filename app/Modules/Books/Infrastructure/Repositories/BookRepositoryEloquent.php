@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Books\Infrastructure\Repositories;
 
-use App\Modules\Books\Domain\Dtos\BookPaginatorQuery;
+use App\Modules\Books\Application\Queries\BookPaginatorQuery;
 use App\Modules\Books\Domain\Entities\Book;
 use App\Modules\Books\Domain\Repositories\BookRepositoryInterface;
 use App\Modules\Books\Infrastructure\Models\Author as AuthorModel;
