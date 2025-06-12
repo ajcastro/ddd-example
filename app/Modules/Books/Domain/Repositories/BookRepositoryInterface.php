@@ -11,12 +11,12 @@ use Illuminate\Support\Collection;
 
 interface BookRepositoryInterface
 {
+    public function all(): Collection;
+    public function get(BooksQuery $query): Collection;
     public function paginate(BooksQuery $query): LengthAwarePaginator;
     public function find(string $id): ?Book;
-    public function findByTitle(string $title): ?Collection;
-    public function findByAuthorId(string $authorId): ?Collection;
-    public function all(): Collection;
+    public function create(Book $book): Book;
+    public function update(Book $book): void;
     public function save(Book $book): Book;
     public function delete(string $id): void;
-    public function update(Book $book): void;
 }

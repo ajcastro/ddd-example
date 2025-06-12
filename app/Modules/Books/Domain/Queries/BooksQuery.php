@@ -10,5 +10,6 @@ class BooksQuery
         public int $perPage,
         public int $page,
         public string $search,
+        public string $authorId = '',
     ) {}
 }

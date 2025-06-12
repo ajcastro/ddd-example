@@ -10,23 +10,55 @@ use App\Modules\Books\Domain\Repositories\BookRepositoryInterface;
 use App\Modules\Books\Infrastructure\Models\Author as AuthorModel;
 use App\Modules\Books\Infrastructure\Models\Book as BookModel;
 use App\Modules\Books\Infrastructure\Models\Collection\BookCollection;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class BookRepositoryEloquent implements BookRepositoryInterface
 {
+
+    public function all(): Collection
+    {
+        /** @var BookCollection */
+        $bookModels = BookModel::all();
+
+        return $bookModels->toBooks();
+    }
+
+    public function get(BooksQuery $query): Collection
+    {
+        /** @var BookCollection */
+        $bookModels = $this->query($query)->get();
+
+        return $bookModels->toBooks();
+    }
+
     public function paginate(BooksQuery $query): LengthAwarePaginator
     {
-        $paginator = BookModel::query()
-            ->where('title', 'like', '%' . $query->search . '%')
-            ->paginate(
-                perPage: $query->perPage,
-                page: $query->page
-            );
-
-        return $paginator->setCollection(
-            $paginator->getCollection()->map(fn(BookModel $book) => $book->toBook())
+        $paginator = $this->query($query)->paginate(
+            perPage: $query->perPage,
+            page: $query->page,
         );
+
+        /** @var BookCollection */
+        $bookModels = $paginator->getCollection();
+
+        return $paginator->setCollection($bookModels->toBooks());
+    }
+
+    private function query(BooksQuery $query): Builder
+    {
+        $queryBuilder = BookModel::query();
+
+        if ($query->search) {
+            $queryBuilder->where('title', 'like', '%' . $query->search . '%');
+        }
+
+        if ($query->authorId) {
+            $queryBuilder->where('author_id', $query->authorId);
+        }
+
+        return $queryBuilder;
     }
 
     public function find(string $id): Book
@@ -37,33 +69,14 @@ class BookRepositoryEloquent implements BookRepositoryInterface
             ?->toBook();
     }
 
-    public function findByTitle(string $title): ?Collection
+    public function create(Book $book): Book
     {
-        /** @var BookCollection */
-        $bookModels = BookModel::query()
-            ->where('title', 'like', '%' . $title . '%')
-            ->paginate()
-            ->get();
-
-        return $bookModels->toBooks();
+        return $book; // TODO: Implement create method
     }
 
-    public function findByAuthorId(string $authorId): ?Collection
+    public function update(Book $book): void
     {
-        /** @var BookCollection */
-        $bookModels = BookModel::query()
-            ->where('author_id', $authorId)
-            ->get();
-
-        return $bookModels->toBooks();
-    }
-
-    public function all(): Collection
-    {
-        /** @var BookCollection */
-        $bookModels = BookModel::all();
-
-        return $bookModels->toBooks();
+        // TODO
     }
 
     public function save(Book $book): Book
@@ -83,7 +96,8 @@ class BookRepositoryEloquent implements BookRepositoryInterface
         return $bookModel->toBook();
     }
 
-    public function delete(string $id): void {}
-
-    public function update(Book $book): void {}
+    public function delete(string $id): void
+    {
+        // TODO
+    }
 }
