@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Books\Infrastructure\Repositories;
 
-use App\Modules\Books\Application\Queries\BookPaginatorQuery;
+use App\Modules\Books\Domain\Queries\BooksQuery;
 use App\Modules\Books\Domain\Entities\Book;
 use App\Modules\Books\Domain\Repositories\BookRepositoryInterface;
 use App\Modules\Books\Infrastructure\Models\Author as AuthorModel;
@@ -15,13 +15,13 @@ use Illuminate\Support\Collection;
 
 class BookRepositoryEloquent implements BookRepositoryInterface
 {
-    public function paginate(BookPaginatorQuery $paginatorQuery): LengthAwarePaginator
+    public function paginate(BooksQuery $query): LengthAwarePaginator
     {
         $paginator = BookModel::query()
-            ->where('title', 'like', '%' . $paginatorQuery->search . '%')
+            ->where('title', 'like', '%' . $query->search . '%')
             ->paginate(
-                perPage: $paginatorQuery->perPage,
-                page: $paginatorQuery->page
+                perPage: $query->perPage,
+                page: $query->page
             );
 
         return $paginator->setCollection(

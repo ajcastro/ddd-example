@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Books\Application\Queries;
+namespace App\Modules\Books\Domain\Queries;
 
 use Illuminate\Http\Request;
 
-class BookPaginatorQuery
+class BooksQuery
 {
     public function __construct(
         public int $perPage,
