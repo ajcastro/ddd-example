@@ -11,7 +11,7 @@ class BookController extends Controller
 {
     public function index(Request $request, BookRepositoryInterface $bookRepository)
     {
-        return $bookRepository->paginate(BooksQuery::from($request));
+        return $bookRepository->paginate(BooksQueryFactory::fromRequest($request));
     }
 
     public function show(string $bookId, BookRepositoryInterface $bookRepository)
