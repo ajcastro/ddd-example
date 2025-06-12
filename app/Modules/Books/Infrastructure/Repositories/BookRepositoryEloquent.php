@@ -29,7 +29,7 @@ class BookRepositoryEloquent implements BookRepositoryInterface
         );
     }
 
-    public function findById(string $id): Book
+    public function find(string $id): Book
     {
         return BookModel::query()
             ->where('id', $id)

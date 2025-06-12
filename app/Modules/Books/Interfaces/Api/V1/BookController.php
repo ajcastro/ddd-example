@@ -16,6 +16,6 @@ class BookController extends Controller
 
     public function show(string $bookId, BookRepositoryInterface $bookRepository)
     {
-        return $bookRepository->findById($bookId);
+        return $bookRepository->find($bookId);
     }
 }

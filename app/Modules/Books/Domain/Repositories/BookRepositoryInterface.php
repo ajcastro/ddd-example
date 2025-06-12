@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
 interface BookRepositoryInterface
 {
     public function paginate(BooksQuery $query): LengthAwarePaginator;
-    public function findById(string $id): ?Book;
+    public function find(string $id): ?Book;
     public function findByTitle(string $title): ?Collection;
     public function findByAuthorId(string $authorId): ?Collection;
     public function all(): Collection;
