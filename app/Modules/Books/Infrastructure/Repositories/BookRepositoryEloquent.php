@@ -48,17 +48,12 @@ class BookRepositoryEloquent implements BookRepositoryInterface
 
     private function query(BooksQuery $query): Builder
     {
-        $queryBuilder = BookModel::query();
+        $builder = BookModel::query();
 
-        if ($query->search) {
-            $queryBuilder->where('title', 'like', '%' . $query->search . '%');
-        }
+        $builder->when($query->search, fn(Builder $q) => $q->where('title', 'like', '%' . $query->search . '%'));
+        $builder->when($query->authorId, fn(Builder $q) => $q->where('author_id', $query->authorId));
 
-        if ($query->authorId) {
-            $queryBuilder->where('author_id', $query->authorId);
-        }
-
-        return $queryBuilder;
+        return $builder;
     }
 
     public function find(string $id): Book
